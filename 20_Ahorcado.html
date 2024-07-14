@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ahorcado</title>
+  </head>
+  <body>
+    <h1>Juego ahorcado</h1>
+    <p id="palabra">palabra saliente</p>
+    <input type="button" value="Iniciar Juego" onclick="Jugar()" />
+    <p>
+      Digita la letra:
+      <input type="text" id="caracter" maxlength="1" /><br /><input
+        type="button"
+        value="Probar"
+        onclick="probar()"
+      />
+    </p>
+    <p id="Intentos">cantidad de intentos: 5</p>
+
+    <script>
+      let palabra = ["laurel", "csx", "yoel", "PITUF"];
+      let numeroRandon = Math.floor(Math.random() * 3);
+      let palabraSalida = palabra[3];
+      let entro = false;
+      let mostrar = "";
+      let cantidadIntentos = 5;
+      let contenedor = [];
+
+      function Jugar() {
+        mostrar = "";
+        for (let i = 0; i < palabraSalida.length; i++) {
+          mostrar += "_ ";
+        }
+        document.getElementById("palabra").innerHTML = mostrar;
+      }
+
+
+
+
+      function probar() {
+        let caracter = document.getElementById("caracter").value;
+        for (let i = 0; i < palabraSalida.length; i++) {
+          if (caracter == palabraSalida[i] && entro == false && !contenedor.includes(i)) {
+            mostrar = mostrar.slice(0, 2*i) + caracter + mostrar.slice(2*i + 1);
+            entro = true;
+            contenedor.push(i);
+          }
+        }
+        if (entro == false) {
+          cantidadIntentos--;
+        } else {
+          entro = false;
+        }
+
+        
+        if (cantidadIntentos == 0) {
+          document.getElementById("Intentos").innerHTML =
+            "Fin del juego Usted ha Perdido";
+          document.getElementById("caracter").disabled = true;
+        } else {
+          document.getElementById("Intentos").innerHTML =
+            "cantidad de intentos: " + cantidadIntentos;
+        }
+        document.getElementById("palabra").innerHTML = mostrar;
+        document.getElementById("caracter").value = "";
+
+        if (contenedor.length == palabraSalida.length) {
+          document.getElementById("Intentos").innerHTML =
+            "Fin del juego Usted ha ganado";
+            document.getElementById("caracter").disabled = true;
+        }
+      }
+    </script>
+  </body>
+</html>
